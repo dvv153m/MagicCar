@@ -1,2 +1,24 @@
-<div>hello word</div>
-<button (click)="addClick()">detail</button>
+<table>
+    <tr>
+        <td>Can bus number: </td>
+        <td>{{canBusNumber}}</td>
+    </tr>
+    <tr>
+        <td>Id request: </td>
+        <td>{{idRequest}}</td>
+    </tr>
+    <tr>
+        <td>Id answer: </td>
+        <td>{{idAnswer}}</td>
+    </tr>
+    <tr>
+        <td>Data: </td>
+        <td>{{data}}</td>
+    </tr>
+</table>
+<div>
+    <button (click)="sendCommand()">send</button>
+</div>
+<div>
+    <button (click)="addClick()">detail</button>
+</div>
