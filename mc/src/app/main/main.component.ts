@@ -9,5 +9,11 @@ import { Router } from '@angular/router';
 
 export class MainComponent{
 
-    
+    constructor(private router: Router){}
+
+    addClick(): void{
+
+        //alert("hello");
+        this.router.navigate(['detail']);
+    }
 }
