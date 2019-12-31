@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'main',
@@ -9,7 +10,8 @@ import { Router } from '@angular/router';
 
 export class MainComponent{
 
-    canBusNumber: number = 0;
+    type = "7FCE";
+    canBusNumber: string = "0";
     idRequest: string = "740";
     idAnswer: string = "748";
     data: string = "03 22 41 7F 00 00 00 00";
@@ -17,20 +19,41 @@ export class MainComponent{
     constructor(private router: Router){}
 
     sendCommand(): void {
+        
+        let typeInt  = parseInt(this.type, 16);
+        let typeArray16 = Uint16Array.of(typeInt);
+        let typeArray8 = new Uint8Array(typeArray16.buffer);
 
-        let temp  = parseInt(this.idRequest, 16);//1856
-        let t2 = Uint32Array.of(temp);//64,7,0,0
-        let arr8 = new Uint8Array(t2.buffer);
-        let ff1 = arr8[0];
-        let ff2 = arr8[1];
-        let ff3 = arr8[2];
-        let ff4 = arr8[3];
+        let canBusNumberInt  = parseInt(this.canBusNumber, 16);
+        let canBusNumber16 = Uint16Array.of(canBusNumberInt);
+        let canBusNumber8 = new Uint8Array(canBusNumber16);
+
+        let idRequestInt  = parseInt(this.idRequest, 16);
+        let idRequesArrayt32 = Uint32Array.of(idRequestInt);
+        let idRequesArrayt8 = new Uint8Array(idRequesArrayt32.buffer);
+        
+        let idAnswerInt  = parseInt(this.idAnswer, 16);
+        let idAnswerArrayt32 = Uint32Array.of(idAnswerInt);
+        let idAnswerArrayt8 = new Uint8Array(idAnswerArrayt32.buffer);
     
-        let pp = this.hexToBytes(this.data.replace(/ /g, ''));
+        let dataArray = this.hexToBytes(this.data.replace(/ /g, ''));
 
-        let arr = new Uint8Array(8+4);
-        arr.set(pp, 0);
-        arr.set(arr8, 8);
+        var dataArrayLen = new Uint8Array(1);
+        dataArrayLen[0] = dataArray.length;
+
+        let result = new Uint8Array(typeArray8.byteLength + canBusNumber8.byteLength + idRequesArrayt8.byteLength + idAnswerArrayt8.byteLength + dataArrayLen.length + dataArray.length);
+        let offset = 0;        
+        result.set(typeArray8, offset);
+        offset += typeArray8.byteLength;
+        result.set(canBusNumber8, offset);
+        offset += canBusNumber8.byteLength;
+        result.set(idRequesArrayt8, offset);
+        offset += idRequesArrayt8.byteLength;
+        result.set(idAnswerArrayt8, offset);
+        offset += idAnswerArrayt8.byteLength;
+        result.set(dataArrayLen, offset);
+        offset += dataArrayLen.length;
+        result.set(dataArray, offset);                
     }
 
     hexToBytes(hex) : number[] {
