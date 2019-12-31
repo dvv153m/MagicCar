@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { ScoutCan } from '../model/scoutCan';
 
 @Component({
     selector: 'main',
@@ -9,34 +10,38 @@ import { of } from 'rxjs';
 })
 
 export class MainComponent{
+    
+    scoutCan: ScoutCan;
 
-    type = "7FCE";
-    canBusNumber: string = "0";
-    idRequest: string = "740";
-    idAnswer: string = "748";
-    data: string = "03 22 41 7F 00 00 00 00";
+    constructor(private router: Router){
 
-    constructor(private router: Router){}
+        this.scoutCan = new ScoutCan();
+        this.scoutCan.type = "7FCE";
+        this.scoutCan.canBusNumber = "0";
+        this.scoutCan.idRequest = "740";
+        this.scoutCan.idAnswer = "748";
+        this.scoutCan.data = "03 22 41 7F 00 00 00 00";
+    }
 
     sendCommand(): void {
         
-        let typeInt  = parseInt(this.type, 16);
+        let typeInt  = parseInt(this.scoutCan.type, 16);
         let typeArray16 = Uint16Array.of(typeInt);
         let typeArray8 = new Uint8Array(typeArray16.buffer);
 
-        let canBusNumberInt  = parseInt(this.canBusNumber, 16);
+        let canBusNumberInt  = parseInt(this.scoutCan.canBusNumber, 16);
         let canBusNumber16 = Uint16Array.of(canBusNumberInt);
         let canBusNumber8 = new Uint8Array(canBusNumber16);
 
-        let idRequestInt  = parseInt(this.idRequest, 16);
+        let idRequestInt  = parseInt(this.scoutCan.idRequest, 16);
         let idRequesArrayt32 = Uint32Array.of(idRequestInt);
         let idRequesArrayt8 = new Uint8Array(idRequesArrayt32.buffer);
         
-        let idAnswerInt  = parseInt(this.idAnswer, 16);
+        let idAnswerInt  = parseInt(this.scoutCan.idAnswer, 16);
         let idAnswerArrayt32 = Uint32Array.of(idAnswerInt);
         let idAnswerArrayt8 = new Uint8Array(idAnswerArrayt32.buffer);
     
-        let dataArray = this.hexToBytes(this.data.replace(/ /g, ''));
+        let dataArray = this.hexToBytes(this.scoutCan.data.replace(/ /g, ''));
 
         var dataArrayLen = new Uint8Array(1);
         dataArrayLen[0] = dataArray.length;
