@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { ScoutCan } from '../model/scoutCan';
+import { CanCommand } from '../model/canCommand';
 
 @Component({
     selector: 'main',
@@ -11,11 +10,11 @@ import { ScoutCan } from '../model/scoutCan';
 
 export class MainComponent{
     
-    scoutCan: ScoutCan;
+    scoutCan: CanCommand;
 
     constructor(private router: Router){
 
-        this.scoutCan = new ScoutCan();
+        this.scoutCan = new CanCommand();
         this.scoutCan.type = "7FCE";
         this.scoutCan.canBusNumber = "0";
         this.scoutCan.idRequest = "740";

@@ -1,6 +1,7 @@
 
-export class ScoutCan{
+export class CanCommand{
 
+    name: string;
     type: string;
     canBusNumber: string;
     idRequest: string;
