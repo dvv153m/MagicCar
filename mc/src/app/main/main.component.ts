@@ -58,7 +58,8 @@ export class MainComponent{
         offset += idAnswerArrayt8.byteLength;
         result.set(dataArrayLen, offset);
         offset += dataArrayLen.length;
-        result.set(dataArray, offset);                
+        result.set(dataArray, offset);
+                       
     }
 
     hexToBytes(hex) : number[] {
