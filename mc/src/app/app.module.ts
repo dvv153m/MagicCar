@@ -1,8 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { OnsenModule } from 'ngx-onsenui';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+import { MqttService } from './services/mqtt.service';
 
 @NgModule({
   declarations: [
@@ -11,9 +16,12 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    OnsenModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [MqttService],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
