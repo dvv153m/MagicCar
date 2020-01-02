@@ -5,7 +5,7 @@
             <ons-back-button (click)="back_click()">Back</ons-back-button>
         </div>
     </ons-toolbar>
-    <div class="content" style="margin-top: 20px;">
+    <div class="content" style="margin-top: 20px; margin-left: 5px;">
         <table>
             <tr>
                 <td>Command name: </td>
@@ -15,8 +15,12 @@
             </tr>
             <tr>
                 <td>Can bus number: </td>
-                <td>
-                    <ons-input modifier="underbar" [(value)]="canBusNumber" float></ons-input>
+                <td>                    
+                    <ons-select [(ngModel)]="selectedCanBusNumber" [attr.modifier]="selectedCanBusNumber">
+                        <option *ngFor="let canBusNumber of canBusNumbers" [value]="canBusNumber.value">
+                          {{ canBusNumber.label }}
+                        </option>
+                      </ons-select>                    
                 </td>
             </tr>
             <tr>
@@ -36,22 +40,16 @@
                 <td>
                     <ons-input modifier="underbar" [(value)]="data" float></ons-input>
                 </td>
-            </tr>
-            <!--<tr>
-                <td>Answer: </td>
-                <td>
-                    <label>{{ answer }}</label>
-                </td>
-            </tr>-->
+            </tr>            
         </table>
 
-        <div style="margin-top: 10px;">
+        <div style="margin-top: 10px;margin-left: 2px;">
             <label>Answer: </label>
             <label>{{ answer }}</label>
         </div>
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 20px;margin-left: 2px;">
             <ons-button modifier="outline" class="btn-space" (click)="sendCommand()">Send</ons-button>
-            <ons-button modifier="outline" class="btn-space" (click)="sendCommand()">Save</ons-button>
+            <ons-button modifier="outline" class="btn-space" (click)="saveCommand()">Save</ons-button>
         </div>
     </div>
 </ons-page>

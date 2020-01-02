@@ -8,6 +8,7 @@ import { OnsenModule } from 'ngx-onsenui';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { MqttService } from './services/mqtt.service';
+import { DataService } from './services/data.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { MqttService } from './services/mqtt.service';
     FormsModule,
     OnsenModule
   ],
-  providers: [MqttService],
+  providers: [MqttService, DataService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
