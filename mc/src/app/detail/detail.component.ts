@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { CanCommand } from '../model/canCommand';
+import { Guid } from '../model/guid';
+import { MqttService } from '../services/mqtt.service';
 
 @Component({
   selector: 'detail',
@@ -17,41 +19,34 @@ export class DetailComponent {
     { value: '1', label: '1' }
   ];
 
-  cmdName: string;
-  canBusNumber: string;
-  idRequest: string;
-  idAnswer: string;
-  data: string;
   answer: string;
+  scoutCan: CanCommand;
 
   constructor(private router: Router,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private mqttService: MqttService) { }
 
   ngOnInit() {
 
-    this.cmdName="Status central locking";
-    this.canBusNumber="345";
-    this.idRequest="11";
-    this.idAnswer="3456";
-    this.data="33 56 43 12 45 78 44 22";
-    this.answer="12121212";
+    this.scoutCan = new CanCommand();
+    this.scoutCan.name = "Status central locking";
+    this.scoutCan.canBusNumber = "0";
+    this.scoutCan.idRequest = "740";
+    this.scoutCan.idAnswer = "748";
+    this.scoutCan.data = "03 22 41 7F 00 00 00 00";
+    
+    this.answer = "";
   }
 
   sendCommand(): void {
 
-    //alert("1");
+    let sc = this.scoutCan;
+    //this.mqttService.send()
   }
 
-  saveCommand(): void {
+  saveCommand(): void {    
 
-    let canCommand = new CanCommand();
-    canCommand.name = this.cmdName;
-    canCommand.canBusNumber = this.canBusNumber;
-    canCommand.idRequest = this.idRequest;
-    canCommand.idAnswer = this.idAnswer;
-    canCommand.data = this.data;
-
-    this.dataService.addCanCommand(canCommand);
+    this.dataService.addCanCommand(this.scoutCan);
   }
 
   back_click(): void {
