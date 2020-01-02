@@ -1,25 +1,32 @@
-<ons-button>Click Me</ons-button>
-<table>
-    <tr>
-        <td>Can bus number: </td>
-        <td>{{scoutCan.canBusNumber}}</td>
-    </tr>
-    <tr>
-        <td>Id request: </td>
-        <td>{{scoutCan.idRequest}}</td>
-    </tr>
-    <tr>
-        <td>Id answer: </td>
-        <td>{{scoutCan.idAnswer}}</td>
-    </tr>
-    <tr>
-        <td>Data: </td>
-        <td>{{scoutCan.data}}</td>
-    </tr>
-</table>
-<div>
-    <button (click)="sendCommand()">send</button>
-</div>
-<div>
-    <button (click)="addClick()">detail</button>
-</div>
+<ons-page>
+    <ons-toolbar>
+        <div class="center">Commands</div>
+    </ons-toolbar>
+    <div class="content" style="margin-top: 20px;">
+        <ons-button>Click Me</ons-button>
+        <table>
+            <tr>
+                <td>Can bus number: </td>
+                <td>{{scoutCan.canBusNumber}}</td>
+            </tr>
+            <tr>
+                <td>Id request: </td>
+                <td>{{scoutCan.idRequest}}</td>
+            </tr>
+            <tr>
+                <td>Id answer: </td>
+                <td>{{scoutCan.idAnswer}}</td>
+            </tr>
+            <tr>
+                <td>Data: </td>
+                <td>{{scoutCan.data}}</td>
+            </tr>
+        </table>
+        <div>
+            <button (click)="sendCommand()">send</button>
+        </div>        
+        <ons-fab (click)="addCommand_click()" position="bottom center">
+            <ons-icon icon="md-plus"></ons-icon>
+          </ons-fab>
+    </div>
+</ons-page>

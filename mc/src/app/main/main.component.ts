@@ -69,11 +69,10 @@ export class MainComponent{
             bytes.push(parseInt(hex.substr(c, 2), 16));
         }
         return bytes;
-    }
+    }    
 
-    addClick(): void {
+    addCommand_click(): void {
 
-        //alert("hello");
         this.router.navigate(['detail']);
     }
 }

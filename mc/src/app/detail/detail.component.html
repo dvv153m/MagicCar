@@ -1,1 +1,57 @@
-detail
+<ons-page>
+    <ons-toolbar>
+        <div class="center">Details</div>
+        <div class="left">
+            <ons-back-button (click)="back_click()">Back</ons-back-button>
+        </div>
+    </ons-toolbar>
+    <div class="content" style="margin-top: 20px;">
+        <table>
+            <tr>
+                <td>Command name: </td>
+                <td>
+                    <ons-input modifier="underbar" [(value)]="cmdName" float></ons-input>
+                </td>
+            </tr>
+            <tr>
+                <td>Can bus number: </td>
+                <td>
+                    <ons-input modifier="underbar" [(value)]="canBusNumber" float></ons-input>
+                </td>
+            </tr>
+            <tr>
+                <td>Id request: </td>
+                <td>
+                    <ons-input modifier="underbar" [(value)]="idRequest" float></ons-input>
+                </td>
+            </tr>
+            <tr>
+                <td>Id answer: </td>
+                <td>
+                    <ons-input modifier="underbar" [(value)]="idAnswer" float></ons-input>
+                </td>
+            </tr>
+            <tr>
+                <td>Data: </td>
+                <td>
+                    <ons-input modifier="underbar" [(value)]="data" float></ons-input>
+                </td>
+            </tr>
+            <!--<tr>
+                <td>Answer: </td>
+                <td>
+                    <label>{{ answer }}</label>
+                </td>
+            </tr>-->
+        </table>
+
+        <div style="margin-top: 10px;">
+            <label>Answer: </label>
+            <label>{{ answer }}</label>
+        </div>
+        <div style="margin-top: 20px;">
+            <ons-button modifier="outline" class="btn-space" (click)="sendCommand()">Send</ons-button>
+            <ons-button modifier="outline" class="btn-space" (click)="sendCommand()">Save</ons-button>
+        </div>
+    </div>
+</ons-page>
