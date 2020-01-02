@@ -2,12 +2,12 @@
 export class CanCommand{
 
     id: string;
-    name: string;
+    name: string = "";
     readonly type: string;
-    canBusNumber: string;
-    idRequest: string;
-    idAnswer: string;
-    data: string;
+    canBusNumber: string = "";
+    idRequest: string = "";
+    idAnswer: string = "";
+    data: string = "";
 
     constructor(){
         

@@ -3,30 +3,23 @@
         <div class="center">Commands</div>
     </ons-toolbar>
     <div class="content" style="margin-top: 20px;">
-        <ons-button>Click Me</ons-button>
-        <table>
-            <tr>
-                <td>Can bus number: </td>
-                <td>{{scoutCan.canBusNumber}}</td>
-            </tr>
-            <tr>
-                <td>Id request: </td>
-                <td>{{scoutCan.idRequest}}</td>
-            </tr>
-            <tr>
-                <td>Id answer: </td>
-                <td>{{scoutCan.idAnswer}}</td>
-            </tr>
-            <tr>
-                <td>Data: </td>
-                <td>{{scoutCan.data}}</td>
-            </tr>
-        </table>
-        <div>
-            <button (click)="sendCommand()">send</button>
-        </div>        
+
+        <ons-list>
+            <ons-list-item tappable *ngFor="let item of canCommands">
+                <div class="center" style="margin-left: 15px" [attr.id]="item.id" (click)="cmd_click($event)">
+                    {{item.name}}</div>
+                <div class="right" style="margin-right: 15px">
+                    <ons-icon style="color: grey" icon="edit" [attr.id]="item.id" (click)="edit_click($event)">
+                    </ons-icon>
+                    <ons-icon style="color: grey; margin-left: 18px;" icon="trash" [attr.id]="item.id"
+                        (click)="delete_click($event)">
+                    </ons-icon>
+                </div>
+            </ons-list-item>
+        </ons-list>
+
         <ons-fab (click)="addCommand_click()" position="bottom center">
             <ons-icon icon="md-plus"></ons-icon>
-          </ons-fab>
+        </ons-fab>
     </div>
 </ons-page>

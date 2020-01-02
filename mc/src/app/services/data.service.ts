@@ -15,6 +15,24 @@ export class DataService {
         return restoreCanCommand;
     }
 
+    getCommandById(id: string): CanCommand {
+
+        let canCommands = this.getCanCommands();
+        let devices = canCommands.filter(d => d.id == id);
+        if (devices.length > 0) {
+
+            return devices[0];
+        }
+    }
+
+    delete(id: string): void {
+
+        let canCommands: Array<CanCommand> = JSON.parse(localStorage.getItem(this.CanCommandsKey));
+        let commands = canCommands.filter(d => d.id != id);
+        let cmdJson = JSON.stringify(commands);
+        localStorage.setItem(this.CanCommandsKey, cmdJson);
+    }
+
     getCanCommands(): CanCommand[] {
 
         let restoreCanCommands: CanCommand[] = JSON.parse(localStorage.getItem(this.CanCommandsKey));
@@ -30,7 +48,7 @@ export class DataService {
     addCurrentCanCommand(cmd: CanCommand) {
 
         let cmdJson = JSON.stringify(cmd);
-        localStorage.setItem(this.CurrentCanCommandKey, cmdJson);
+        localStorage.setItem(this.CurrentCanCommandKey, cmdJson);        
     }
 
     addCanCommand(cmd: CanCommand){
@@ -40,7 +58,14 @@ export class DataService {
         let restoreCanCommands: Array<CanCommand> = JSON.parse(localStorage.getItem(this.CanCommandsKey));
         if (restoreCanCommands != null){
         
-            restoreCanCommands.push(cmd);
+            let command = restoreCanCommands.filter(d => d.id == cmd.id);
+            if(command == null){
+                restoreCanCommands.push(cmd);
+            }
+            else{
+
+                //todo edit
+            }
         }
         else{
 

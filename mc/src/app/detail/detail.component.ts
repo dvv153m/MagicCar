@@ -28,12 +28,14 @@ export class DetailComponent {
 
   ngOnInit() {
 
-    this.scoutCan = new CanCommand();
+    this.scoutCan = this.dataService.getCurrentCanCommand();
+    /*this.scoutCan = new CanCommand();
+    this.scoutCan.id = Guid.newGuid();
     this.scoutCan.name = "Status central locking";
     this.scoutCan.canBusNumber = "0";
     this.scoutCan.idRequest = "740";
     this.scoutCan.idAnswer = "748";
-    this.scoutCan.data = "03 22 41 7F 00 00 00 00";
+    this.scoutCan.data = "03 22 41 7F 00 00 00 00";*/
     
     this.answer = "";
   }
