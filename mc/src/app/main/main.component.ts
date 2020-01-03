@@ -43,7 +43,6 @@ export class MainComponent{
         });
 
         this.mqttService.MessageArriveIn.on((answer?) => {
-
             
         });
 
@@ -51,8 +50,7 @@ export class MainComponent{
                     
             this.params.statusConnectionColor = "red";
             setTimeout(() => {
-
-                console.log("Mqtt connection failed: " + message + ". Retrying");
+                
                 this.mqttService.reconnect();
             }, 1500);
         });
@@ -67,6 +65,8 @@ export class MainComponent{
         let commandId = $event.target.id;
         let command: CanCommand = this.dataService.getCommandById(commandId);        
         let bytes: Uint8Array = command.getBytes();
+
+        this.mqttService.send(bytes);
 
         setTimeout(()=>{
 
@@ -84,10 +84,10 @@ export class MainComponent{
     delete_click($event): void {
 
         let commandId = $event.target.id;
-        let cmd = this.dataService.getCommandById(commandId);        
+        let command = this.dataService.getCommandById(commandId);        
         
         onsNotification.confirm({
-            message: "Are you sure that you want to remove command " + cmd.name + " ?",
+            message: "Are you sure that you want to remove command " + command.name + " ?",
             cancelable: true,
             callback: i => {
       
@@ -102,9 +102,9 @@ export class MainComponent{
 
     addCommand_click(): void {
 
-        let scoutCan = new CanCommand();
-        scoutCan.id = Guid.newGuid();
-        this.dataService.addCurrentCanCommand(scoutCan);
+        let command = new CanCommand();
+        command.id = Guid.newGuid();
+        this.dataService.addCurrentCanCommand(command);
 
         this.router.navigate(['detail']);
     }

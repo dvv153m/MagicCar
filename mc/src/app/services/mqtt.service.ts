@@ -48,10 +48,9 @@ export class MqttService {
     }
 
     send(data: Uint8Array): void{
-
-        //var dataArray = new Uint8Array(1);
-        //dataArray[0] = 4;
+        
         let message = new Paho.MQTT.Message(data);
+        message.destinationName = "Request";//topic
         this.mqttClient.send(message);
     }
 

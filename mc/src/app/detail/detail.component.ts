@@ -20,7 +20,7 @@ export class DetailComponent {
   ];
 
   answer: string;
-  scoutCan: CanCommand;
+  canCommand: CanCommand;
 
   constructor(private router: Router,
     private dataService: DataService,
@@ -28,31 +28,23 @@ export class DetailComponent {
 
   ngOnInit() {
 
-    this.scoutCan = this.dataService.getCurrentCanCommand();
-    this.selectedCanBusNumber = this.scoutCan.canBusNumber;
-    /*this.scoutCan = new CanCommand();
-    this.scoutCan.id = Guid.newGuid();
-    this.scoutCan.name = "Status central locking";
-    this.scoutCan.canBusNumber = "0";
-    this.scoutCan.idRequest = "740";
-    this.scoutCan.idAnswer = "748";
-    this.scoutCan.data = "03 22 41 7F 00 00 00 00";*/
-    
+    this.canCommand = this.dataService.getCurrentCanCommand();
+    this.selectedCanBusNumber = this.canCommand.canBusNumber;    
     this.answer = "";
   }
 
   sendCommand(): void {
 
-    this.scoutCan.canBusNumber = this.selectedCanBusNumber;
-    let sc = this.scoutCan;
-    //this.mqttService.send()
+    this.canCommand.canBusNumber = this.selectedCanBusNumber;
+    let bytes: Uint8Array = this.canCommand.getBytes();
+    this.mqttService.send(bytes);
     onsNotification.toast('Send command', {timeout: 1250});
   }
 
   saveCommand(): void {    
 
-    this.scoutCan.canBusNumber = this.selectedCanBusNumber;
-    this.dataService.addOrUpdateCanCommand(this.scoutCan);
+    this.canCommand.canBusNumber = this.selectedCanBusNumber;
+    this.dataService.addOrUpdateCanCommand(this.canCommand);
     onsNotification.toast('Save command', {timeout: 1250});
   }
 
