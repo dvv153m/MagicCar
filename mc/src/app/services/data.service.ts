@@ -27,8 +27,7 @@ export class DataService {
             command.idRequest = devices[0].idRequest;
             command.idAnswer = devices[0].idAnswer;
             command.data = devices[0].data;
-            command.id = devices[0].id;
-            //return new CanCommand();
+            command.id = devices[0].id;            
             return command;
         }
         return new CanCommand();

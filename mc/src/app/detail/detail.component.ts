@@ -43,6 +43,7 @@ export class DetailComponent {
 
   sendCommand(): void {
 
+    this.scoutCan.canBusNumber = this.selectedCanBusNumber;
     let sc = this.scoutCan;
     //this.mqttService.send()
     onsNotification.toast('Send command', {timeout: 1250});

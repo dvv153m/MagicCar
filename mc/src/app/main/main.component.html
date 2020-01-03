@@ -1,11 +1,17 @@
 <ons-page>
     <ons-toolbar>
         <div class="center">Commands</div>
+        <div class="right">
+            <svg viewBox="0 0 120 120" width="8" height="8" style="margin-right: 30%; margin-bottom:2px;">
+                <circle cx="60" cy="60" r="50" [attr.fill]="params.statusConnectionColor" />
+            </svg>
+        </div>
     </ons-toolbar>
-    <div class="content" style="margin-top: 20px;">
-        <ons-progress-bar indeterminate [style.visibility]="isVisibleProgressBar ? 'visible' : 'hidden'"></ons-progress-bar>
+    <div class="content">
+        <ons-progress-bar indeterminate [style.visibility]="isVisibleProgressBar ? 'visible' : 'hidden'">
+        </ons-progress-bar>
 
-        <ons-list>
+        <ons-list style="margin-top: 20px;">
             <ons-list-item tappable *ngFor="let item of canCommands">
                 <div class="center" style="margin-left: 15px" [attr.id]="item.id" (click)="cmd_click($event)">
                     {{item.name}}</div>

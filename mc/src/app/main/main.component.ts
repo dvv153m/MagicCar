@@ -5,6 +5,7 @@ import { DataService } from '../services/data.service';
 import { Guid } from '../model/guid';
 import { onsNotification } from 'ngx-onsenui'
 import { MqttService } from '../services/mqtt.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'main',
@@ -14,6 +15,7 @@ import { MqttService } from '../services/mqtt.service';
 
 export class MainComponent{
         
+    params = environment;
     canCommands: CanCommand[];
     isVisibleProgressBar = false;
 
@@ -29,14 +31,15 @@ export class MainComponent{
     }
 
     ngOnInit(): void {
-
+        
         //localStorage.clear();
         this.canCommands = this.dataService.getCanCommands();
-        /*this.mqttService.init("m12.cloudmqtt.com", 30989, "sirglnjd", "aOT8BRDcRi-Q");
+        this.mqttService.init("m12.cloudmqtt.com", 30989, "sirglnjd", "aOT8BRDcRi-Q");
         
         this.mqttService.ConnectedIn.on(() => {
 
-            this.mqttService.subscribe("Answer");            
+            this.mqttService.subscribe("Answer");
+            this.params.statusConnectionColor = "rgb(5, 236, 24)";          
         });
 
         this.mqttService.MessageArriveIn.on((answer?) => {
@@ -46,6 +49,7 @@ export class MainComponent{
 
         this.mqttService.FailIn.on((message?) => {
                     
+            this.params.statusConnectionColor = "red";
             setTimeout(() => {
 
                 console.log("Mqtt connection failed: " + message + ". Retrying");
@@ -53,7 +57,7 @@ export class MainComponent{
             }, 1500);
         });
         
-        this.mqttService.connect();*/
+        this.mqttService.connect();
     }
 
     cmd_click($event): void {
@@ -61,8 +65,7 @@ export class MainComponent{
         this.showProgressBar();
 
         let commandId = $event.target.id;
-        let command = this.dataService.getCommandById(commandId);                        
-        //let command: CanCommand = new CanCommand();
+        let command: CanCommand = this.dataService.getCommandById(commandId);        
         let bytes: Uint8Array = command.getBytes();
 
         setTimeout(()=>{
