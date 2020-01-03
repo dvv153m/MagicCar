@@ -16,7 +16,7 @@
             <tr>
                 <td>Can bus number: </td>
                 <td>                    
-                    <ons-select [(ngModel)]="selectedCanBusNumber" [attr.modifier]="selectedCanBusNumber">
+                    <ons-select [(ngModel)]="canCommand.canBusNumber" [attr.modifier]="canCommand.canBusNumber">
                         <option *ngFor="let canBusNumber of canBusNumbers" [value]="canBusNumber.value">
                           {{ canBusNumber.label }}
                         </option>

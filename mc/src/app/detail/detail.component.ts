@@ -13,7 +13,6 @@ import { onsNotification } from 'ngx-onsenui'
 
 export class DetailComponent {
 
-  selectedCanBusNumber: string = '0';
   canBusNumbers = [
     { value: '0', label: '0' },
     { value: '1', label: '1' }
@@ -28,22 +27,19 @@ export class DetailComponent {
 
   ngOnInit() {
 
-    this.canCommand = this.dataService.getCurrentCanCommand();
-    this.selectedCanBusNumber = this.canCommand.canBusNumber;    
+    this.canCommand = this.dataService.getCurrentCanCommand();        
     this.answer = "";
   }
 
   sendCommand(): void {
-
-    this.canCommand.canBusNumber = this.selectedCanBusNumber;
+    
     let bytes: Uint8Array = this.canCommand.getBytes();
     this.mqttService.send(bytes);
     onsNotification.toast('Send command', {timeout: 1250});
   }
 
   saveCommand(): void {    
-
-    this.canCommand.canBusNumber = this.selectedCanBusNumber;
+    
     this.dataService.addOrUpdateCanCommand(this.canCommand);
     onsNotification.toast('Save command', {timeout: 1250});
   }
