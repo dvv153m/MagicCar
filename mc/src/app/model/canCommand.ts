@@ -12,6 +12,7 @@ export class CanCommand{
     constructor(){
         
         this.type = "7FCE";
+        this.canBusNumber = "0";
     }
 
     getBytes(): Uint8Array {

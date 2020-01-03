@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { CanCommand } from '../model/canCommand';
-import { Guid } from '../model/guid';
 import { MqttService } from '../services/mqtt.service';
+import { onsNotification } from 'ngx-onsenui'
 
 @Component({
   selector: 'detail',
@@ -29,6 +29,7 @@ export class DetailComponent {
   ngOnInit() {
 
     this.scoutCan = this.dataService.getCurrentCanCommand();
+    this.selectedCanBusNumber = this.scoutCan.canBusNumber;
     /*this.scoutCan = new CanCommand();
     this.scoutCan.id = Guid.newGuid();
     this.scoutCan.name = "Status central locking";
@@ -44,11 +45,14 @@ export class DetailComponent {
 
     let sc = this.scoutCan;
     //this.mqttService.send()
+    onsNotification.toast('Send command', {timeout: 1250});
   }
 
   saveCommand(): void {    
 
+    this.scoutCan.canBusNumber = this.selectedCanBusNumber;
     this.dataService.addOrUpdateCanCommand(this.scoutCan);
+    onsNotification.toast('Save command', {timeout: 1250});
   }
 
   back_click(): void {
