@@ -17,7 +17,7 @@ export class MqttService {
     private readonly onConnected = new LiteEvent<void>();
     public get ConnectedIn() { return this.onConnected.expose(); }
 
-    private readonly onMessageArrive = new LiteEvent<string>();
+    private readonly onMessageArrive = new LiteEvent<Uint8Array>();
     public get MessageArriveIn() { return this.onMessageArrive.expose(); }
 
     private readonly onFail = new LiteEvent<string>();
@@ -85,7 +85,8 @@ export class MqttService {
 
     onMessageArrived(message): void {
 
-        this.onMessageArrive.trigger(message.payloadString);
+        this.onMessageArrive.trigger(message.payloadBytes);
+        //this.onMessageArrive.trigger(message.payloadString);        
     }
 
     disconnect() : void {

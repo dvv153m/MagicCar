@@ -13,16 +13,16 @@ import { environment } from 'src/environments/environment';
     providers: []
 })
 
-export class MainComponent{
-        
+export class MainComponent {
+
     params = environment;
     canCommands: CanCommand[];
     isVisibleProgressBar = false;
 
     constructor(private router: Router,
-                private dataService: DataService,
-                private mqttService: MqttService){
-        
+        private dataService: DataService,
+        private mqttService: MqttService) {
+
         /*this.scoutCan = new CanCommand();        
         this.scoutCan.canBusNumber = "0";
         this.scoutCan.idRequest = "740";
@@ -31,52 +31,58 @@ export class MainComponent{
     }
 
     ngOnInit(): void {
-        
-        //localStorage.clear();
+
+        //localStorage.clear();        
         this.canCommands = this.dataService.getCanCommands();
         this.mqttService.init("m12.cloudmqtt.com", 30989, "sirglnjd", "aOT8BRDcRi-Q");
-        
+
         this.mqttService.ConnectedIn.on(() => {
 
             this.mqttService.subscribe("Answer");
-            this.params.statusConnectionColor = "rgb(5, 236, 24)";          
+            this.params.statusConnectionColor = "rgb(5, 236, 24)";
         });
 
         this.mqttService.MessageArriveIn.on((answer?) => {
-            
+
+            let str = "";
+            answer.forEach(element => {
+
+                str += element + "  ";
+            });
+            onsNotification.toast(str, { timeout: 3250 });        
         });
 
         this.mqttService.FailIn.on((message?) => {
-                    
+
             this.params.statusConnectionColor = "red";
             setTimeout(() => {
-                
+
                 this.mqttService.reconnect();
             }, 1500);
         });
-        
+
         this.mqttService.connect();
     }
 
     cmd_click($event): void {
-        
+
         this.showProgressBar();
 
         let commandId = $event.target.id;
-        let command: CanCommand = this.dataService.getCommandById(commandId);        
+        let command: CanCommand = this.dataService.getCommandById(commandId);
         let bytes: Uint8Array = command.getBytes();
 
         this.mqttService.send(bytes);
 
-        setTimeout(()=>{
+        setTimeout(() => {
 
             this.hideProgressBar();
         }, 3500);
-    } 
-    
-    edit_click($event): void{
+    }
 
-        let commandId = $event.target.id;        
+    edit_click($event): void {
+
+        let commandId = $event.target.id;
         this.dataService.setCurrentCanCommand(commandId);
         this.router.navigate(['detail']);
     }
@@ -84,21 +90,21 @@ export class MainComponent{
     delete_click($event): void {
 
         let commandId = $event.target.id;
-        let command = this.dataService.getCommandById(commandId);        
-        
+        let command = this.dataService.getCommandById(commandId);
+
         onsNotification.confirm({
             message: "Are you sure that you want to remove command " + command.name + " ?",
             cancelable: true,
             callback: i => {
-      
-              if (i == 1) { //1-ok; 0-cancell
-      
-                this.dataService.delete(commandId);
-                this.canCommands = this.dataService.getCanCommands();                
-              }
+
+                if (i == 1) { //1-ok; 0-cancell
+
+                    this.dataService.delete(commandId);
+                    this.canCommands = this.dataService.getCanCommands();
+                }
             }
-          });
-      }
+        });
+    }
 
     addCommand_click(): void {
 
@@ -112,10 +118,10 @@ export class MainComponent{
     showProgressBar(): void {
 
         this.isVisibleProgressBar = true;
-      }
-    
-      hideProgressBar(): void {
-    
+    }
+
+    hideProgressBar(): void {
+
         this.isVisibleProgressBar = false;
-      }
+    }
 }
