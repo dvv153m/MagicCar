@@ -51,20 +51,24 @@ export class DataService {
         localStorage.setItem(this.CurrentCanCommandKey, cmdJson);        
     }
 
-    addCanCommand(cmd: CanCommand){
+    addOrUpdateCanCommand(cmd: CanCommand){
 
         this.addCurrentCanCommand(cmd);
 
         let restoreCanCommands: Array<CanCommand> = JSON.parse(localStorage.getItem(this.CanCommandsKey));
         if (restoreCanCommands != null){
         
-            let command = restoreCanCommands.filter(d => d.id == cmd.id);
-            if(command == null){
+            let commands: CanCommand[] = restoreCanCommands.filter(d => d.id == cmd.id);            
+            if(commands == null || commands.length == 0){
                 restoreCanCommands.push(cmd);
             }
             else{
 
-                //todo edit
+                commands[0].name = cmd.name;
+                commands[0].canBusNumber = cmd.canBusNumber;
+                commands[0].idRequest = cmd.idRequest;
+                commands[0].idAnswer = cmd.idAnswer;
+                commands[0].data = cmd.data;                            
             }
         }
         else{

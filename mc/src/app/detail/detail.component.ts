@@ -48,7 +48,7 @@ export class DetailComponent {
 
   saveCommand(): void {    
 
-    this.dataService.addCanCommand(this.scoutCan);
+    this.dataService.addOrUpdateCanCommand(this.scoutCan);
   }
 
   back_click(): void {
