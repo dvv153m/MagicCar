@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CanCommand } from '../model/canCommand';
 import { DataService } from '../services/data.service';
 import { Guid } from '../model/guid';
+import { onsNotification } from 'ngx-onsenui'
 
 @Component({
     selector: 'main',
@@ -49,9 +50,24 @@ export class MainComponent{
 
     delete_click($event): void {
 
-        let deviceId = $event.target.id;
-        let device = this.dataService.delete(deviceId);
-        this.canCommands = this.dataService.getCanCommands();     
+        let commandId = $event.target.id;
+        let cmd = this.dataService.getCommandById(commandId);        
+        
+        onsNotification.confirm({
+            message: "Are you sure that you want to remove command " + cmd.name + " ?",
+            cancelable: true,
+            callback: i => {
+      
+              if (i == 1) { //1-ok; 0-cancell
+      
+                this.dataService.delete(commandId);
+                this.canCommands = this.dataService.getCanCommands();
+                //this.dataService.delete(deviceId);
+                //this.deviceItems = this.dataService.getDevices();//
+              }
+            }
+          });
+        //});    
       }
 
     addCommand_click(): void {
