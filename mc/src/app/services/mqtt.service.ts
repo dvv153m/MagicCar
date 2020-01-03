@@ -2,7 +2,9 @@ import { Paho } from 'ng2-mqtt/mqttws31';
 import { LiteEvent } from './lite.event';
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class MqttService {
 
     private mqttClient: Paho.MQTT.Client;

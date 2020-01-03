@@ -21,8 +21,17 @@ export class DataService {
         let devices = canCommands.filter(d => d.id == id);
         if (devices.length > 0) {
 
-            return devices[0];
+            let command = new CanCommand();
+            command.name = devices[0].name;
+            command.canBusNumber = devices[0].canBusNumber;
+            command.idRequest = devices[0].idRequest;
+            command.idAnswer = devices[0].idAnswer;
+            command.data = devices[0].data;
+            command.id = devices[0].id;
+            //return new CanCommand();
+            return command;
         }
+        return new CanCommand();
     }
 
     delete(id: string): void {
@@ -39,9 +48,10 @@ export class DataService {
         return restoreCanCommands;
     }
 
-    setCurrentCanCommand(cmd: CanCommand): void {
+    setCurrentCanCommand(id: string): void {
 
-        let cmdJson = JSON.stringify(cmd);
+        let command = this.getCommandById(id);        
+        let cmdJson = JSON.stringify(command);
         localStorage.setItem(this.CurrentCanCommandKey, cmdJson);
     }
 

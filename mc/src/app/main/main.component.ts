@@ -4,6 +4,7 @@ import { CanCommand } from '../model/canCommand';
 import { DataService } from '../services/data.service';
 import { Guid } from '../model/guid';
 import { onsNotification } from 'ngx-onsenui'
+import { MqttService } from '../services/mqtt.service';
 
 @Component({
     selector: 'main',
@@ -12,13 +13,14 @@ import { onsNotification } from 'ngx-onsenui'
 })
 
 export class MainComponent{
-    
-    //scoutCan: CanCommand;
+        
     canCommands: CanCommand[];
+    isVisibleProgressBar = false;
 
     constructor(private router: Router,
-                private dataService: DataService){
-
+                private dataService: DataService,
+                private mqttService: MqttService){
+        
         /*this.scoutCan = new CanCommand();        
         this.scoutCan.canBusNumber = "0";
         this.scoutCan.idRequest = "740";
@@ -30,21 +32,49 @@ export class MainComponent{
 
         //localStorage.clear();
         this.canCommands = this.dataService.getCanCommands();
+        /*this.mqttService.init("m12.cloudmqtt.com", 30989, "sirglnjd", "aOT8BRDcRi-Q");
+        
+        this.mqttService.ConnectedIn.on(() => {
+
+            this.mqttService.subscribe("Answer");            
+        });
+
+        this.mqttService.MessageArriveIn.on((answer?) => {
+
+            
+        });
+
+        this.mqttService.FailIn.on((message?) => {
+                    
+            setTimeout(() => {
+
+                console.log("Mqtt connection failed: " + message + ". Retrying");
+                this.mqttService.reconnect();
+            }, 1500);
+        });
+        
+        this.mqttService.connect();*/
     }
 
     cmd_click($event): void {
         
+        this.showProgressBar();
+
         let commandId = $event.target.id;
-        let command = this.dataService.getCommandById(commandId);
-        //this.dataService.setCurrentCanCommand(command);
-        //let bytes = this.scoutCan.getBytes();   //                            
+        let command = this.dataService.getCommandById(commandId);                        
+        //let command: CanCommand = new CanCommand();
+        let bytes: Uint8Array = command.getBytes();
+
+        setTimeout(()=>{
+
+            this.hideProgressBar();
+        }, 3500);
     } 
     
     edit_click($event): void{
 
-        let commandId = $event.target.id;
-        let command = this.dataService.getCommandById(commandId);
-        this.dataService.setCurrentCanCommand(command);
+        let commandId = $event.target.id;        
+        this.dataService.setCurrentCanCommand(commandId);
         this.router.navigate(['detail']);
     }
 
@@ -61,13 +91,10 @@ export class MainComponent{
               if (i == 1) { //1-ok; 0-cancell
       
                 this.dataService.delete(commandId);
-                this.canCommands = this.dataService.getCanCommands();
-                //this.dataService.delete(deviceId);
-                //this.deviceItems = this.dataService.getDevices();//
+                this.canCommands = this.dataService.getCanCommands();                
               }
             }
           });
-        //});    
       }
 
     addCommand_click(): void {
@@ -78,4 +105,14 @@ export class MainComponent{
 
         this.router.navigate(['detail']);
     }
+
+    showProgressBar(): void {
+
+        this.isVisibleProgressBar = true;
+      }
+    
+      hideProgressBar(): void {
+    
+        this.isVisibleProgressBar = false;
+      }
 }

@@ -3,6 +3,7 @@
         <div class="center">Commands</div>
     </ons-toolbar>
     <div class="content" style="margin-top: 20px;">
+        <ons-progress-bar indeterminate [style.visibility]="isVisibleProgressBar ? 'visible' : 'hidden'"></ons-progress-bar>
 
         <ons-list>
             <ons-list-item tappable *ngFor="let item of canCommands">
