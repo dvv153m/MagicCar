@@ -12,7 +12,14 @@ export class DataService {
     getCurrentCanCommand(): CanCommand {
 
         let restoreCanCommand: CanCommand = JSON.parse(localStorage.getItem(this.CurrentCanCommandKey));
-        return restoreCanCommand;
+        let command = new CanCommand();
+        command.name = restoreCanCommand.name;
+        command.canBusNumber = restoreCanCommand.canBusNumber;
+        command.idRequest = restoreCanCommand.idRequest;
+        command.idAnswer = restoreCanCommand.idAnswer;
+        command.data = restoreCanCommand.data;
+        command.id = restoreCanCommand.id;
+        return command;
     }
 
     getCommandById(id: string): CanCommand {
@@ -27,7 +34,7 @@ export class DataService {
             command.idRequest = devices[0].idRequest;
             command.idAnswer = devices[0].idAnswer;
             command.data = devices[0].data;
-            command.id = devices[0].id;            
+            command.id = devices[0].id;
             return command;
         }
         return new CanCommand();
@@ -49,7 +56,7 @@ export class DataService {
 
     setCurrentCanCommand(id: string): void {
 
-        let command = this.getCommandById(id);        
+        let command = this.getCommandById(id);
         let cmdJson = JSON.stringify(command);
         localStorage.setItem(this.CurrentCanCommandKey, cmdJson);
     }
@@ -57,30 +64,30 @@ export class DataService {
     addCurrentCanCommand(cmd: CanCommand) {
 
         let cmdJson = JSON.stringify(cmd);
-        localStorage.setItem(this.CurrentCanCommandKey, cmdJson);        
+        localStorage.setItem(this.CurrentCanCommandKey, cmdJson);
     }
 
-    addOrUpdateCanCommand(cmd: CanCommand){
+    addOrUpdateCanCommand(cmd: CanCommand) {
 
         this.addCurrentCanCommand(cmd);
 
         let restoreCanCommands: Array<CanCommand> = JSON.parse(localStorage.getItem(this.CanCommandsKey));
-        if (restoreCanCommands != null){
-        
-            let commands: CanCommand[] = restoreCanCommands.filter(d => d.id == cmd.id);            
-            if(commands == null || commands.length == 0){
+        if (restoreCanCommands != null) {
+
+            let commands: CanCommand[] = restoreCanCommands.filter(d => d.id == cmd.id);
+            if (commands == null || commands.length == 0) {
                 restoreCanCommands.push(cmd);
             }
-            else{
+            else {
 
                 commands[0].name = cmd.name;
                 commands[0].canBusNumber = cmd.canBusNumber;
                 commands[0].idRequest = cmd.idRequest;
                 commands[0].idAnswer = cmd.idAnswer;
-                commands[0].data = cmd.data;                            
+                commands[0].data = cmd.data;
             }
         }
-        else{
+        else {
 
             restoreCanCommands = new Array<CanCommand>();
             restoreCanCommands.push(cmd);
