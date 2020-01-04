@@ -32,13 +32,9 @@ export class DetailComponent {
     this.canCommand = this.dataService.getCurrentCanCommand();
     this.txtAnswer = "";
     this.mqttService.MessageArriveIn.on((answer?) => {
-
-      let str = "";
-      answer.forEach(element => {
-
-        str += element + "  ";
-      });
-      this.txtAnswer = str;
+      
+      let strAnswer = this.bufferToHex(answer).toUpperCase();
+      this.txtAnswer = strAnswer;      
     });
   }
 
@@ -59,4 +55,11 @@ export class DetailComponent {
 
     this.router.navigate(['']);
   }
+
+  bufferToHex (buffer) : string {
+    return Array
+        .from (new Uint8Array (buffer))
+        .map (b => b.toString (16).padStart (2, "0"))
+        .join (" ");
+}
 }

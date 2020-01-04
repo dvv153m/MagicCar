@@ -28,10 +28,17 @@ export class MainComponent {
         this.scoutCan.idRequest = "740";
         this.scoutCan.idAnswer = "748";
         this.scoutCan.data = "03 22 41 7F 00 00 00 00";*/
+    }    
+
+    bufferToHex (buffer) : string {
+        return Array
+            .from (new Uint8Array (buffer))
+            .map (b => b.toString (16).padStart (2, "0"))
+            .join (" ");
     }
 
     ngOnInit(): void {
-
+        
         //localStorage.clear();        
         this.canCommands = this.dataService.getCanCommands();
         this.mqttService.init("m12.cloudmqtt.com", 30989, "sirglnjd", "aOT8BRDcRi-Q");
@@ -44,12 +51,8 @@ export class MainComponent {
 
         this.mqttService.MessageArriveIn.on((answer?) => {
 
-            let str = "";
-            answer.forEach(element => {
-
-                str += element + "  ";
-            });
-            onsNotification.toast(str, { timeout: 3250 });        
+            let strAnswer = this.bufferToHex(answer).toUpperCase();
+            onsNotification.toast(strAnswer, { timeout: 3250 });            
         });
 
         this.mqttService.FailIn.on((message?) => {
