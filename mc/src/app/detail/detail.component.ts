@@ -21,6 +21,7 @@ export class DetailComponent {
   ];
 
   txtAnswer: string;
+  txtDecodeAnswer: string;
   canCommand: CanCommand;
 
   constructor(private router: Router,
@@ -33,8 +34,16 @@ export class DetailComponent {
     this.txtAnswer = "";
     this.mqttService.MessageArriveIn.on((answer?) => {
       
-      let strAnswer = this.bufferToHex(answer).toUpperCase();
+      let strAnswer = this.bytesToHex(answer).toUpperCase();
       this.txtAnswer = strAnswer;      
+      if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 40 00 30"){
+
+        this.txtDecodeAnswer = "close";
+      }
+      else if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 40 00 20"){
+        
+        this.txtDecodeAnswer = "open";
+      }  
     });
   }
 
@@ -56,10 +65,11 @@ export class DetailComponent {
     this.router.navigate(['']);
   }
 
-  bufferToHex (buffer) : string {
+  bytesToHex (bytes) : string {
+
     return Array
-        .from (new Uint8Array (buffer))
-        .map (b => b.toString (16).padStart (2, "0"))
-        .join (" ");
+        .from(new Uint8Array(bytes))
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join(" ");
 }
 }

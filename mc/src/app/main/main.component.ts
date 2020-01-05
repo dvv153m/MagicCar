@@ -22,7 +22,7 @@ export class MainComponent {
     constructor(private router: Router,
         private dataService: DataService,
         private mqttService: MqttService) {
-
+        
         /*this.scoutCan = new CanCommand();        
         this.scoutCan.canBusNumber = "0";
         this.scoutCan.idRequest = "740";
