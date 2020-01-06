@@ -36,11 +36,11 @@ export class DetailComponent {
       
       let strAnswer = this.bytesToHex(answer).toUpperCase();
       this.txtAnswer = strAnswer;      
-      if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 40 00 30"){
+      if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 42 00 20"){
 
         this.txtDecodeAnswer = "close";
       }
-      else if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 40 00 20"){
+      else if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 42 00 30"){
         
         this.txtDecodeAnswer = "open";
       }  
