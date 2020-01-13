@@ -9,6 +9,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { MqttService } from './services/mqtt.service';
 import { DataService } from './services/data.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { DataService } from './services/data.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    OnsenModule
+    OnsenModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [MqttService, DataService],
   bootstrap: [AppComponent],
