@@ -50,6 +50,7 @@ export class DetailComponent {
   sendCommand(): void {
 
     this.txtAnswer = "Pending...";
+    this.txtDecodeAnswer = "";
     let bytes: Uint8Array = this.canCommand.getBytes();
     this.mqttService.send(bytes);
     onsNotification.toast('Send command', { timeout: 1250 });
