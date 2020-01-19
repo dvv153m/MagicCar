@@ -5,7 +5,8 @@
 export const environment = {
   
   production: false,
-  statusConnectionColor: "red"
+  statusConnectionColor: "red",
+  isShowNotification: true
 };
 
 /*

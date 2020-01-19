@@ -22,19 +22,19 @@ export class MainComponent {
     constructor(private router: Router,
         private dataService: DataService,
         private mqttService: MqttService) {
-        
+
         /*this.scoutCan = new CanCommand();        
         this.scoutCan.canBusNumber = "0";
         this.scoutCan.idRequest = "740";
         this.scoutCan.idAnswer = "748";
         this.scoutCan.data = "03 22 41 7F 00 00 00 00";*/
-    }    
+    }
 
-    bufferToHex (buffer) : string {
+    bufferToHex(buffer): string {
         return Array
-            .from (new Uint8Array (buffer))
-            .map (b => b.toString (16).padStart (2, "0"))
-            .join (" ");
+            .from(new Uint8Array(buffer))
+            .map(b => b.toString(16).padStart(2, "0"))
+            .join(" ");
     }
 
     ngOnInit(): void {
@@ -51,8 +51,11 @@ export class MainComponent {
 
         this.mqttService.MessageArriveIn.on((answer?) => {
 
-            let strAnswer = this.bufferToHex(answer).toUpperCase();
-            onsNotification.toast(strAnswer, { timeout: 3250 });            
+            if (this.params.isShowNotification) {
+
+                let strAnswer = this.bufferToHex(answer).toUpperCase();
+                onsNotification.toast(strAnswer, { timeout: 3250 });
+            }
         });
 
         this.mqttService.FailIn.on((message?) => {
@@ -69,6 +72,7 @@ export class MainComponent {
 
     cmd_click($event): void {
 
+        this.params.isShowNotification = true;
         this.showProgressBar();
 
         let commandId = $event.target.id;

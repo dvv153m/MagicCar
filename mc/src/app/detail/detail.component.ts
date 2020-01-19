@@ -35,6 +35,7 @@ export class DetailComponent {
     this.mqttService.MessageArriveIn.on((answer?) => {
       
       let strAnswer = this.bytesToHex(answer).toUpperCase();
+      let tempStr2 = strAnswer.substring(0,44);
       this.txtAnswer = strAnswer;      
       if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 42 00 20"){
 
@@ -43,12 +44,21 @@ export class DetailComponent {
       else if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 42 00 30"){
         
         this.txtDecodeAnswer = "open";
-      }  
+      }
+      else if(strAnswer == "CD 7F 01 26 07 00 00 2E 07 00 00 08 04 62 C1 04 02 00 00 00"){
+        
+        this.txtDecodeAnswer = "2 keys";
+      }
+      else if(tempStr2 == "CD 7F 01 26 07 00 00 2E 07 00 00 08 04 62 C1"){
+        
+        this.txtDecodeAnswer = strAnswer.substring(48,50) + " keys";
+      }       
     });
   }
 
   sendCommand(): void {
 
+    this.params.isShowNotification = false;
     this.txtAnswer = "Pending...";
     this.txtDecodeAnswer = "";
     let bytes: Uint8Array = this.canCommand.getBytes();

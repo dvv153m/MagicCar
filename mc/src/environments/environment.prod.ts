@@ -1,5 +1,6 @@
 export const environment = {
   
   production: true,
-  statusConnectionColor: "red"
+  statusConnectionColor: "red",
+  isShowNotification: true
 };
