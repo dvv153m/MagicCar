@@ -38,7 +38,7 @@ export class MainComponent {
     }
 
     ngOnInit(): void {
-        
+
         //localStorage.clear();        
         this.canCommands = this.dataService.getCanCommands();
         this.mqttService.init("m12.cloudmqtt.com", 30989, "sirglnjd", "aOT8BRDcRi-Q");

@@ -33,26 +33,34 @@ export class DetailComponent {
     this.canCommand = this.dataService.getCurrentCanCommand();
     this.txtAnswer = "";
     this.mqttService.MessageArriveIn.on((answer?) => {
-      
+
       let strAnswer = this.bytesToHex(answer).toUpperCase();
-      let tempStr2 = strAnswer.substring(0,44);
-      this.txtAnswer = strAnswer;      
-      if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 42 00 20"){
+      let tempStr2 = strAnswer.substring(0, 44);
+      let fuelLevelStr = strAnswer.substring(0, 47);
+      this.txtAnswer = strAnswer;
+      if (strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 42 00 20") {
 
         this.txtDecodeAnswer = "close";
       }
-      else if(strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 42 00 30"){
-        
+      else if (strAnswer == "CD 7F 00 40 07 00 00 48 07 00 00 08 07 62 41 7F 00 42 00 30") {
+
         this.txtDecodeAnswer = "open";
       }
-      else if(strAnswer == "CD 7F 01 26 07 00 00 2E 07 00 00 08 04 62 C1 04 02 00 00 00"){
-        
+      else if (strAnswer == "CD 7F 01 26 07 00 00 2E 07 00 00 08 04 62 C1 04 02 00 00 00") {
+
         this.txtDecodeAnswer = "2 keys";
       }
-      else if(tempStr2 == "CD 7F 01 26 07 00 00 2E 07 00 00 08 04 62 C1"){
-        
-        this.txtDecodeAnswer = strAnswer.substring(48,50) + " keys";
-      }       
+      else if (tempStr2 == "CD 7F 01 26 07 00 00 2E 07 00 00 08 04 62 C1") {
+
+        this.txtDecodeAnswer = strAnswer.substring(48, 50) + " keys";
+      }
+      if (fuelLevelStr == "CD 7F 01 E0 07 00 00 E8 07 00 00 08 04 62 F4 2F") {//"CD 7F 01 E0 07 00 00 E8 07 00 00 08 04 62 F4 2F 61 00 00 00"
+
+        let tempFuelLevelHex = strAnswer.substring(48, 50);
+        let tempFuelLevel = parseInt(tempFuelLevelHex, 16);
+        let fuelLevel = (tempFuelLevel * 39) / 100;
+        this.txtDecodeAnswer = "fuel: " + fuelLevel + "%";
+      }
     });
   }
 
@@ -77,11 +85,11 @@ export class DetailComponent {
     this.router.navigate(['']);
   }
 
-  bytesToHex (bytes) : string {
+  bytesToHex(bytes): string {
 
     return Array
-        .from(new Uint8Array(bytes))
-        .map(b => b.toString(16).padStart(2, "0"))
-        .join(" ");
-}
+      .from(new Uint8Array(bytes))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join(" ");
+  }
 }

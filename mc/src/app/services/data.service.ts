@@ -76,6 +76,7 @@ export class DataService {
 
             let commands: CanCommand[] = restoreCanCommands.filter(d => d.id == cmd.id);
             if (commands == null || commands.length == 0) {
+                
                 restoreCanCommands.push(cmd);
             }
             else {
